@@ -34,7 +34,7 @@ public class Venta {
 	private Integer valor;
 	
     @ManyToOne
-    @JoinColumn(name = "cliente_id") 
+    @JoinColumn(name = "cliente") 
     private Cliente cliente;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)

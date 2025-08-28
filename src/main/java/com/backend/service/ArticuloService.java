@@ -1,10 +1,12 @@
 package com.backend.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.backend.entity.Categoria;
+import com.backend.repository.CategoriaRepository;
 
 import com.backend.entity.Articulo;
 import com.backend.repository.ArticuloRepository;
@@ -12,44 +14,50 @@ import com.backend.repository.ArticuloRepository;
 @Service
 public class ArticuloService {
 
-    @Autowired
-    private ArticuloRepository articuloRepository;
+	@Autowired
+	private ArticuloRepository articuloRepository;
 
-    public Articulo guardar(Articulo articulo) {
-        return articuloRepository.save(articulo);
-    }
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
-    public List<Articulo> listar() {
-        return articuloRepository.findAll();
-    }
+	public Articulo guardar(Articulo request) {
 
-    public Articulo get(Integer id) {
-        return articuloRepository.findById(id).orElse(null);
-    }
+		Categoria idCategoria = categoriaRepository.findById(request.getCategoria().getId())
+				.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
 
-    public Articulo update(Integer id, Articulo request) {
-        Optional<Articulo> opt = articuloRepository.findById(id);
+		request.setCategoria(idCategoria);
 
-        if (opt.isPresent()) {
-            Articulo actualizado = opt.get();
+		return articuloRepository.save(request);
+	}
 
-            actualizado.setNombre(request.getNombre());
-            actualizado.setDescripcion(request.getDescripcion());
-            actualizado.setCantidad(request.getCantidad());
-            actualizado.setEstado(request.getEstado());
-            actualizado.setCategoria(request.getCategoria());
+	public List<Articulo> listar() {
+		return articuloRepository.findAll();
+	}
 
-            return articuloRepository.save(actualizado);
-        } else {
-            return null;
-        }
-    }
+	public Articulo get(Integer id) {
+		return articuloRepository.findById(id).orElse(null);
+	}
 
-    public boolean eliminar(Integer id) {
-        if (articuloRepository.existsById(id)) {
-            articuloRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+	public Articulo update(Integer id, Articulo request) {
+
+		Articulo articulo = articuloRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+
+		Categoria idCategoria = categoriaRepository.findById(request.getCategoria().getId())
+				.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
+		articulo.setNombre(request.getNombre());
+		articulo.setCategoria(idCategoria);
+
+		return articuloRepository.save(articulo);
+
+	}
+
+	public boolean eliminar(Integer id) {
+		if (articuloRepository.existsById(id)) {
+			articuloRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 }

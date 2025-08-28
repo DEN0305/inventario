@@ -2,10 +2,12 @@ package com.backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class CompraArticulo {
 	private Integer id;
 
 	@NotNull(message = "El articulo es obligatorio")
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "articulo", nullable = false)
 	private Articulo articulo;
 
@@ -28,6 +31,7 @@ public class CompraArticulo {
 	private Integer cantidad;
 
 	@NotNull(message = "La compra es obligatoria")
+	@ManyToOne
 	@JoinColumn(name = "compra", nullable = false)
 	private Compra compra;
 
