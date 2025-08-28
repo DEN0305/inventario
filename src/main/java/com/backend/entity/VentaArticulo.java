@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -20,15 +22,16 @@ public class VentaArticulo {
 	private Integer id;
 	
 	@NotNull(message = "La venta es obligatoria")
-	private Integer venta;
-	
-	@NotNull(message = "La venta es obligatoria")
-	private Integer articulo;
-	
-	@NotNull(message = "La venta es obligatoria")
 	private Integer cantidad;
 	
 	@NotNull(message = "La venta es obligatoria")
 	private Integer valor;
 	
+	@ManyToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
+
+    @ManyToOne
+    @JoinColumn(name = "articulo_id")
+    private Articulo articulo;
 }

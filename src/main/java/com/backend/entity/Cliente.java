@@ -1,10 +1,13 @@
 package com.backend.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,4 +34,7 @@ public class Cliente {
 
 	@NotNull(message = "El correo es obligatorio")
 	private String correo;
+	
+    @OneToMany(mappedBy = "cliente")
+    private List<Venta> ventas;
 }
