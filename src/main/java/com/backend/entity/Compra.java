@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,16 +17,18 @@ import lombok.Data;
 @Table(name = "compra")
 @Data
 public class Compra {
-	
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotNull(message = "La fecha es obligatoria")
-	private LocalDate fecha; 
+	private LocalDate fecha;
 
-	private Integer proveedor;
+	@NotNull(message = "El proveedor es obligatorio")
+	@JoinColumn(name = "proveedor", nullable = false)
+	private Proveedor proveedor;
 
 	@NotNull(message = "El valor es obligatorio")
 	private Integer valor;
