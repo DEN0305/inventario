@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,11 +20,16 @@ public class ArticuloCaracteristicas {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
+	@NotNull(message = "El articulo es obligatorio")
+	@JoinColumn(name = "articulo", nullable = false)
+	private Articulo articulo;
+
 	@NotNull(message = "La caracteristica es obligatoria")
-	private Integer caracteristica;
-	
+	@JoinColumn(name = "caracteristica", nullable = false)
+	private Caracteristica caracteristica;
+
 	@NotBlank(message = "El valor es obligatorio")
 	private String valor;
-	
+
 }
